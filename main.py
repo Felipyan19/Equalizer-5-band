@@ -1,0 +1,55 @@
+import tkinter as tk
+import numpy as np
+import matplotlib
+import traceback
+import sys
+
+matplotlib.use('TkAgg')  # Set the backend
+
+from signal_generator import SignalGenerator
+from filters import EqualizerFilter
+from mixer import SignalMixer
+from ui import EqualizerUI
+
+def main():
+    try:
+        # Create the main components
+        signal_gen = SignalGenerator()
+        equalizer = EqualizerFilter()
+        mixer = SignalMixer()
+        
+        # Create the UI
+        root = tk.Tk()
+        app = EqualizerUI(root, signal_gen, equalizer, mixer)
+        
+        # Run the application
+        app.run()
+    except Exception as e:
+        # Print error information
+        error_msg = f"Error: {str(e)}\n\n{traceback.format_exc()}"
+        print(error_msg)
+        
+        # Show error in GUI if possible
+        try:
+            root = tk.Tk()
+            root.title("Error")
+            root.geometry("800x400")
+            
+            label = tk.Label(root, text="An error occurred:", font=("Arial", 12, "bold"))
+            label.pack(pady=(20, 10))
+            
+            error_text = tk.Text(root, wrap=tk.WORD, bg='#f0f0f0', height=15)
+            error_text.insert(tk.END, error_msg)
+            error_text.config(state=tk.DISABLED)
+            error_text.pack(padx=20, pady=10, fill=tk.BOTH, expand=True)
+            
+            close_button = tk.Button(root, text="Close", command=root.destroy)
+            close_button.pack(pady=20)
+            
+            root.mainloop()
+        except:
+            # If showing the error in GUI fails, just print to console
+            pass
+
+if __name__ == "__main__":
+    main() 
