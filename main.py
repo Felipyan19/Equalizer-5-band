@@ -4,7 +4,7 @@ import matplotlib
 import traceback
 import sys
 
-matplotlib.use('TkAgg')  # Set the backend
+matplotlib.use('TkAgg')  
 
 from signal_generator import SignalGenerator
 from filters import EqualizerFilter
@@ -13,23 +13,18 @@ from ui import EqualizerUI
 
 def main():
     try:
-        # Create the main components
         signal_gen = SignalGenerator()
         equalizer = EqualizerFilter()
         mixer = SignalMixer()
         
-        # Create the UI
         root = tk.Tk()
         app = EqualizerUI(root, signal_gen, equalizer, mixer)
         
-        # Run the application
         app.run()
     except Exception as e:
-        # Print error information
         error_msg = f"Error: {str(e)}\n\n{traceback.format_exc()}"
         print(error_msg)
         
-        # Show error in GUI if possible
         try:
             root = tk.Tk()
             root.title("Error")
@@ -48,7 +43,6 @@ def main():
             
             root.mainloop()
         except:
-            # If showing the error in GUI fails, just print to console
             pass
 
 if __name__ == "__main__":
